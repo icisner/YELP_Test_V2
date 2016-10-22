@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Yelp OAuth Example</title>
+
+        <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="oauth-1.0a/oauth-1.0a.js"></script>
+       
+
+        <script type="text/javascript">
+
+var yelp_location = 'San+Antonio';
+var yelp_url = 'https://api.yelp.com/v2/search?term=food&location=San+Antonio';
+var yelp_parameters = {
+    
+    oauth_consumer_key: CONSUMER_SECRET_KEY,
+    oauth_token: TOKEN_SECRET_KEY,
+    oauth_nonce: octopus.nonce_generator(), 
+    oauth_timestamp: Math.floor(Date.now()/1000),
+    oauth_signature_method: 'HMAC-SHA1',
+    oauth_version: '1.0',
+    callback: 'cb'
+};
+
+
+var encodedSignature = oauthSignature.generate('GET', yelp_url, yelp_parameters,CONSUMER_SECRET_KEY,TOKEN_SECRET_KEY );
+yelp_parameters.oauth_signature = encodedSignature;
+
+var settings = {
+    url: yelp_url,
+    data: yelp_parameters,
+    cache: true,
+    dataType: 'jsonp',
+    success: function(results) {
+        console.log(results);
+    },
+    fail: function() {
+        console.log('No results found!');
+    }
+};
+
+$.ajax(settings);
+        </script>
+
+    </head>
+    <body></body>
+</html>
